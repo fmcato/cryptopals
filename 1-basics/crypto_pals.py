@@ -12,15 +12,15 @@ def xor(a: bytes, b: bytes) -> bytes:
     return bytes([x ^ y for x, y in zip(a, b)])
 
 
-def score_ascii_text(message: bytes) -> int:
+def score_ascii_text(message: bytes) -> float:
     score = 0
     for letter in message:
         if letter < 0 or letter > 127:
             # not ASCII
             return -1000000000000
         letter = chr(letter)
-        if not letter.isalnum():
-            score -= 1
-        elif letter.isalpha():
-            score += 1
-    return score
+        if letter.isalpha() or letter in (' ', "'"):
+            score += 5
+        else:
+            score -= 5
+    return score / len(message)
