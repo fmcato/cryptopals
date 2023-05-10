@@ -24,3 +24,17 @@ def score_ascii_text(message: bytes) -> float:
         else:
             score -= 5
     return score / len(message)
+
+def xor_repeating_key(message: str, key: str, key_size: int = None) -> bytes:
+    if key_size is None:
+        key_size = len(key)
+    key_bytes = str.encode(key)
+    xored_bytes = []
+    key_pos = 0
+    for text_byte in str.encode(message):
+        xored_bytes.append(text_byte ^ key_bytes[key_pos])
+        key_pos += 1
+        key_pos %= key_size
+
+    return bytes(xored_bytes)
+
